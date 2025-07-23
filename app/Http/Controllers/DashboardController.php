@@ -55,6 +55,7 @@ class DashboardController extends Controller
         $products = Product::all();
         return view('dashboard.edit', compact('dashboard', 'products'));
     }
+    
 
     public function update(Request $request, $id)
     {
