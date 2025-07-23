@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dashboard;
 use App\Models\Product;
+use App\Models\Dashboard;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
@@ -14,6 +15,14 @@ class DashboardController extends Controller
         $dashboard = Dashboard::with('product')->latest()->paginate(10);
         return view('dashboard.index', compact('dashboard'));
     }
+
+    public function print()
+    {
+        $dashboard = Dashboard::with('product')->latest()->get();
+        $pdf = Pdf::loadView('dashboard.print', compact('dashboard'));
+        return $pdf->download('laporan-pesanan.pdf');
+    }
+
 
     public function create()
     {
