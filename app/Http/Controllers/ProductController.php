@@ -56,6 +56,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+        $product = Product::findOrFail($id); // ambil data produk berdasarkan ID
         return view('product.edit', compact('product'));
     }
 

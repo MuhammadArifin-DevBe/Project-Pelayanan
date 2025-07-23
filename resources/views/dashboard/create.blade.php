@@ -32,7 +32,7 @@
         </div>
 
         <div class="mb-6 flex justify-end">
-            <a href="{{ route('dashboard.index') }}" class="mr-3 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</a>
+            <a href="{{ route('dashboard') }}" class="mr-3 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</a>
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
         </div>
     </form>

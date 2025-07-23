@@ -46,7 +46,7 @@ class DashboardController extends Controller
             'jumlah' => $jumlah,
         ]);
 
-        return redirect()->route('dashboard.index')->with('success', 'Data berhasil disimpan!');
+        return redirect()->route('dashboard')->with('success', 'Data berhasil disimpan!');
     }
 
     public function edit($id)
@@ -74,12 +74,12 @@ class DashboardController extends Controller
             'jumlah' => $jumlah,
         ]);
 
-        return redirect()->route('dashboard.index')->with('success', 'Data berhasil diupdate!');
+        return redirect()->route('dashboard')->with('success', 'Data berhasil diupdate!');
     }
 
     public function destroy($id)
     {
         Dashboard::findOrFail($id)->delete();
-        return redirect()->route('dashboard.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('dashboard')->with('success', 'Data berhasil dihapus!');
     }
 }
