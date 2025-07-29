@@ -12,7 +12,7 @@
 
 
     <a href="{{ route('dashboard.create') }}" class="text-blue-700 inline-block hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Tambah Pesanan</a>
-    <a href="{{ route('dashboard.print') }}" id="btn-cetak" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cetak PDF
+    <a id="btn-cetak" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cetak PDF
     </a>
 
 
@@ -49,7 +49,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center px-4 py-4">Belum ada transaksi.</td>
+                <td colspan="5" class="text-center px-4 py-4">Belum ada pesanan.</td>
             </tr>
             @endforelse
 
@@ -67,5 +67,32 @@
     <div class="mt-4">
         {{ $dashboard->links() }}
     </div>
+
+    <script>
+        document.getElementById('btn-cetak').addEventListener('click', function() {
+            //download PDF
+            const link = document.createElement('a');
+            link.href = "{{ route('dashboard.print') }}";
+            link.setAttribute('download', 'laporan-pesanan.pdf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            //reset data pakai AJAX
+            setTimeout(() => {
+                fetch("{{ route('dashboard.reset') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json"
+                        }
+                    }).then(res => res.json())
+                    .then(data => {
+                        // reload halaman
+                        location.reload();
+                    });
+            }, 1000); // atur waktu hapus disini
+        });
+    </script>
 </div>
 @endsection

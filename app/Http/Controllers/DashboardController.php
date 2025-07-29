@@ -19,9 +19,26 @@ class DashboardController extends Controller
     public function print()
     {
         $dashboard = Dashboard::with('product')->latest()->get();
+
+        // Render view menjadi PDF dan simpan ke variabel
         $pdf = Pdf::loadView('dashboard.print', compact('dashboard'));
-        return $pdf->download('laporan-pesanan.pdf');
+        $pdfOutput = $pdf->output(); // proses PDF dulu
+
+        // Hapus semua data setelah PDF diproses
+        Dashboard::truncate();
+
+        // Kembalikan file PDF sebagai download response
+        return response($pdfOutput)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="laporan-pesanan.pdf"');
     }
+
+    public function reset()
+    {
+        Dashboard::truncate(); // reset data
+        return response()->json(['status' => 'reset']); // balikan ke JS
+    }
+
 
 
     public function create()
@@ -55,7 +72,7 @@ class DashboardController extends Controller
         $products = Product::all();
         return view('dashboard.edit', compact('dashboard', 'products'));
     }
-    
+
 
     public function update(Request $request, $id)
     {

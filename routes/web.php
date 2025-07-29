@@ -17,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
     Route::get('/dashboard/print', [DashboardController::class, 'print'])->name('dashboard.print');
+    Route::post('/dashboard/reset', [DashboardController::class, 'reset'])->name('dashboard.reset');
 });
 
 Route::resource('product', ProductController::class)->middleware(['auth']);

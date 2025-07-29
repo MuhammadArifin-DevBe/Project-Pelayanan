@@ -11,6 +11,8 @@
 </head>
 <body>
     <h2>Data Pesanan</h2>
+    <p>Tanggal: {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
+
     <table>
         <thead>
             <tr>
@@ -19,6 +21,7 @@
                 <th>Harga</th>
                 <th>Qty</th>
                 <th>Jumlah</th>
+                <th>Tanggal</th>
             </tr>
         </thead>
         <tbody>
@@ -29,15 +32,15 @@
                 <td>Rp{{ number_format($item->product->harga ?? 0, 0, ',', '.') }}</td>
                 <td>{{ $item->qty }}</td>
                 <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
             </tr>
             @endforeach
             <tr>
                 <td colspan="4" class="text-right"><strong>JUMLAH</strong></td>
                 <td class="border p-2">Rp{{ number_format($dashboard->sum('jumlah'), 0, ',', '.') }}</td>
+                <td></td>
             </tr>
         </tbody>
     </table>
 </body>
 </html>
-
-
