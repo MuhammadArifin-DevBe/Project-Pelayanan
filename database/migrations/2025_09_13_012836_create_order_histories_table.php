@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dashboards', function (Blueprint $table) {
+        Schema::create('order_histories', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->string('falkutas');
             $table->string('npm');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); 
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('qty');
             $table->string('jumlah');
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dashboards');
+        Schema::dropIfExists('order_histories');
     }
 };

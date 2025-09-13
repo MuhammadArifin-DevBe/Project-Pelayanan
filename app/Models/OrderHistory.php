@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class dashboard extends Model
+class OrderHistory extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'nama',
         'falkutas',
@@ -16,6 +17,7 @@ class dashboard extends Model
         'qty',
         'jumlah',
     ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

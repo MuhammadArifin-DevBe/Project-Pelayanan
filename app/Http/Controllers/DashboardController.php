@@ -7,6 +7,7 @@ use App\Models\Dashboard;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
+use App\Models\OrderHistory;
 
 class DashboardController extends Controller
 {
@@ -24,7 +25,19 @@ class DashboardController extends Controller
         $pdf = Pdf::loadView('dashboard.print', compact('dashboard'));
         $pdfOutput = $pdf->output(); // proses PDF dulu
 
-        // Hapus semua data setelah PDF diproses
+        // Pindahkan data ke order_histories
+        foreach ($dashboard as $item) {
+            OrderHistory::create([
+                'nama' => $item->nama,
+                'falkutas' => $item->falkutas,
+                'npm' => $item->npm,
+                'product_id' => $item->product_id,
+                'qty' => $item->qty,
+                'jumlah' => $item->jumlah,
+            ]);
+        }
+
+        // Hapus semua data setelah dipindah
         Dashboard::truncate();
 
         // Kembalikan file PDF sebagai download response
@@ -39,7 +52,12 @@ class DashboardController extends Controller
         return response()->json(['status' => 'reset']); // balikan ke JS
     }
 
+    public function history()
+    {
+        $history = OrderHistory::with('product')->latest()->get();
 
+        return view('dashboard.history', compact('history'));
+    }
 
     public function create()
     {
@@ -49,7 +67,11 @@ class DashboardController extends Controller
 
     public function store(Request $request)
     {
+            // dd($request->all());
         $request->validate([
+            'nama' => 'required|string|max:255',
+            'falkutas' => 'required|string|max:255',
+            'npm' => 'required|string|max:50',
             'product_id' => 'required|exists:products,id',
             'qty' => 'required|numeric|min:1',
         ]);
@@ -58,6 +80,9 @@ class DashboardController extends Controller
         $jumlah = $request->qty * $product->harga;
 
         Dashboard::create([
+            'nama' => $request->nama,
+            'falkutas' => $request->falkutas,
+            'npm' => $request->npm,
             'product_id' => $product->id,
             'qty' => $request->qty,
             'jumlah' => $jumlah,
@@ -77,6 +102,9 @@ class DashboardController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'nama' => 'required|string|max:255',
+            'falkutas' => 'required|string|max:255',
+            'npm' => 'required|string|max:50',
             'product_id' => 'required|exists:products,id',
             'qty' => 'required|numeric|min:1',
         ]);
@@ -86,6 +114,9 @@ class DashboardController extends Controller
         $jumlah = $request->qty * $product->harga;
 
         $dashboard->update([
+            'nama' => $request->nama,
+            'falkutas' => $request->falkutas,
+            'npm' => $request->npm,
             'product_id' => $request->product_id,
             'qty' => $request->qty,
             'jumlah' => $jumlah,

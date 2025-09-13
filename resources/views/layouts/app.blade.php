@@ -42,6 +42,11 @@
                             Produk
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('dashboard.history') }}" class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm {{ request()->is('dashboard/history') ? 'text-blue-700 dark:text-white' : '' }}">
+                            Riwayat Pesanan
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

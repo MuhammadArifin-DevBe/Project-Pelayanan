@@ -7,6 +7,22 @@
     <form action="{{ route('dashboard.update', $dashboard->id) }}" method="POST">
         @csrf
         @method('PUT')
+
+        <div class="mb-4">
+            <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+            <input type="text" name="nama" id="nama" value="{{ old('nama', $dashboard->nama) }}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+
+        <div class="mb-4">
+            <label for="falkutas" class="block text-sm font-medium text-gray-700">Falkutas</label>
+            <input type="text" name="falkutas" id="falkutas" value="{{ old('falkutas', $dashboard->falkutas) }}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+
+        <div class="mb-4">
+            <label for="npm" class="block text-sm font-medium text-gray-700">NPM</label>
+            <input type="text" name="npm" id="npm" value="{{ old('npm', $dashboard->npm) }}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        
         <div class="mb-4">
             <label for="product_id" class="block text-sm font-medium text-gray-700">Pilih Produk</label>
             <select name="product_id" id="product_id" onchange="updateHarga()" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">

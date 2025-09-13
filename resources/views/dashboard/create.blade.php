@@ -6,12 +6,26 @@
 
     <form action="{{ route('dashboard.store') }}" method="POST">
         @csrf
+
+        <div class="mb-4">
+            <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+            <input name="nama" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+        </div>
+        <div class="mb-4">
+            <label for="falkutas" class="block text-sm font-medium text-gray-700">Falkutas</label>
+            <input name="falkutas" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+        </div>
+        <div class="mb-4">
+            <label for="npm" class="block text-sm font-medium text-gray-700">NPM</label>
+            <input name="npm" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+        </div>
+
         <div class="mb-4">
             <label for="product_id" class="block text-sm font-medium text-gray-700">Pilih Produk</label>
             <select name="product_id" id="product_id" onchange="updateHarga()" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
                 <option value=""> Pilih Pesanan </option>
                 @foreach ($products as $product)
-                    <option value="{{ $product->id }}" data-harga="{{ $product->harga }}">{{ $product->nama }}</option>
+                <option value="{{ $product->id }}" data-harga="{{ $product->harga }}">{{ $product->nama }}</option>
                 @endforeach
             </select>
         </div>
